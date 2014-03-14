@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+
+require "bundler"
+Bundler.require :default, :development
+
+puts "Loading MagnumPI development environment (#{MagnumPI::VERSION})"
+Pry.start
