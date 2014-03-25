@@ -1,5 +1,6 @@
 require "magnum-pi/api/scheme"
 require "magnum-pi/api/resources"
+require "magnum-pi/api/instance"
 
 module MagnumPI
   module API
