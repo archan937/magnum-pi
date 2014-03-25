@@ -1,4 +1,4 @@
-== MagnumPI
+== MagnumPI {<img src="https://secure.travis-ci.org/archan937/magnum-pi.png"/>}[http://travis-ci.org/archan937/magnum-pi] {<img src="https://codeclimate.com/github/archan937/magnum-pi.png"/>}[https://codeclimate.com/github/archan937/magnum-pi]
 
 Create an easy interface to talk with APIs
 
