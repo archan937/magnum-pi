@@ -1,0 +1,1 @@
+require "magnum-pi/api/scheme"
