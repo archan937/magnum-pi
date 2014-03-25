@@ -5,6 +5,10 @@ require "magnum-pi/api/instance"
 module MagnumPI
   module API
 
+    def self.extended(base)
+      base.send :include, Instance
+    end
+
     def api(&block)
       @api ||= Scheme.new
       if block_given?
