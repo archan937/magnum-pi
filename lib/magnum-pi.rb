@@ -1,5 +1,6 @@
 require "mechanize"
 require "oj"
+require "xmlsimple"
 
 require "magnum-pi/dsl"
 require "magnum-pi/api"

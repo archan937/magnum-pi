@@ -3,7 +3,7 @@ module MagnumPI
     module Instance
 
       def initialize(params = {})
-        super
+        super()
         @api = self.class.api.finalize params
         @resources = self.class.resources.to_hash
       end

@@ -12,6 +12,9 @@ module Unit
         it "also extends base with MagnumPI::API::Instance" do
           assert_equal true, SomeAPI.included_modules.include?(MagnumPI::API::Instance)
         end
+        it "also extends base with MagnumPI::API::Consumer" do
+          assert_equal true, SomeAPI.included_modules.include?(MagnumPI::API::Consumer)
+        end
       end
 
       describe ".api" do

@@ -1,12 +1,14 @@
 require "magnum-pi/api/scheme"
 require "magnum-pi/api/resources"
 require "magnum-pi/api/instance"
+require "magnum-pi/api/consumer"
 
 module MagnumPI
   module API
 
     def self.extended(base)
       base.send :include, Instance
+      base.send :include, Consumer
     end
 
     def api(&block)
