@@ -4,7 +4,17 @@ Bundler.require :default, :development
 #
 # Usage:
 #
+#   Vimeo.get "archan937/info"
 #   Vimeo.user_info "archan937"
+#   Vimeo.user_info :user => "archan937"
+#
+#   Vimeo.download "archan937.json", :get, "archan937/info"
+#   Vimeo.user_info ["archan937"], "archan937.json"
+#   Vimeo.user_info({:user => "archan937"}, "archan937.json")
+#
+#   Vimeo.get "channel/ruby/videos"
+#   Vimeo.channel_videos "ruby"
+#   Vimeo.channel_videos ["ruby"], "ruby.json"
 #
 
 module Vimeo
@@ -17,6 +27,7 @@ module Vimeo
 
   resources do
     user_info :get, var(:user), "info"
+    channel_videos :get, "channel", var(:channel), "videos"
   end
 
 private
