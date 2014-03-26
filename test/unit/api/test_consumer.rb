@@ -91,6 +91,28 @@ module Unit
             assert_equal ["http://foo.bar", {:foo => "bar"}], @consumer.send(:parse_args, {:foo => "bar"})
           end
         end
+        describe "#parse_resource_variables" do
+          it "returns an array containing arguments for making a request" do
+            resource = @consumer.resources[:statistics]
+            assert_equal [:get, "stats", nil], @consumer.send(:parse_resource_variables, resource, {})
+            assert_equal [:get, "stats", nil], @consumer.send(:parse_resource_variables, resource, {:DATE => "2014-03-20"})
+            assert_equal [:get, "stats", "2014-03-20"], @consumer.send(:parse_resource_variables, resource, {:date => "2014-03-20"})
+            assert_equal [:get, "stats", "2014-03-20"], @consumer.send(:parse_resource_variables, resource, {"date" => "2014-03-20"})
+            assert_equal [:get, "stats", "2014-03-20"], @consumer.send(:parse_resource_variables, resource, ["2014-03-20"])
+            assert_equal [:get, "stats", "2014-03-20"], @consumer.send(:parse_resource_variables, resource, "2014-03-20")
+            assert_raises ArgumentError do
+              @consumer.send :parse_resource_variables, resource, ["2014-03-20", "foo"]
+            end
+
+            resource = [:post, "foobar"]
+            assert_equal [:post, "foobar"], @consumer.send(:parse_resource_variables, resource, {})
+            assert_equal [:post, "foobar"], @consumer.send(:parse_resource_variables, resource, {:DATE => "2014-03-20"})
+            assert_equal [:post, "foobar"], @consumer.send(:parse_resource_variables, resource, {:date => "2014-03-20"})
+            assert_equal [:post, "foobar"], @consumer.send(:parse_resource_variables, resource, {"date" => "2014-03-20"})
+            assert_equal [:post, "foobar"], @consumer.send(:parse_resource_variables, resource, ["2014-03-20"])
+            assert_equal [:post, "foobar"], @consumer.send(:parse_resource_variables, resource, ["2014-03-20", "foo"])
+          end
+        end
         describe "#to_url" do
           it "returns api[:uri]" do
             assert_equal "http://foo.bar", @consumer.send(:to_url)
