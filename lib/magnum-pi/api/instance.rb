@@ -8,8 +8,6 @@ module MagnumPI
         @resources = self.class.resources.to_hash
       end
 
-    private
-
       def api
         @api
       end

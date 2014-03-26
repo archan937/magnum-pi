@@ -35,14 +35,14 @@ module Unit
             it "returns @api" do
               foo, api = Foo.new, api
               foo.instance_variable_set :@api, api
-              assert_equal api, foo.send(:api)
+              assert_equal api, foo.api
             end
           end
           describe "#resources" do
             it "returns @resources" do
               foo, resources = Foo.new, resources
               foo.instance_variable_set :@resources, resources
-              assert_equal resources, foo.send(:resources)
+              assert_equal resources, foo.resources
             end
           end
         end
