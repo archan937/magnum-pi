@@ -33,6 +33,7 @@ module MagnumPI
       end
 
       def request(method, url, params)
+        puts "#{method.upcase} #{url} #{"(#{params.inspect[1..-2]})" if params && params.size > 0}" if MagnumPI.debug_output?
         agent.send method, url, params
       rescue Mechanize::ResponseCodeError => e
         raise Error, e.message, e.backtrace
