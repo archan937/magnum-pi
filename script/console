@@ -3,5 +3,9 @@
 require "bundler"
 Bundler.require :default, :development
 
+Dir[File.expand_path("../../examples/*.rb", __FILE__)].each do |example|
+  require example
+end
+
 puts "Loading MagnumPI development environment (#{MagnumPI::VERSION})"
 Pry.start
