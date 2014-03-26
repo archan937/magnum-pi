@@ -7,8 +7,12 @@ module MagnumPI
   module API
 
     def self.extended(base)
-      base.send :include, Instance
-      base.send :include, Consumer
+      if base.is_a? Class
+        base.send :include, Instance
+        base.send :include, Consumer
+      else
+        base.extend Consumer
+      end
     end
 
     def api(&block)

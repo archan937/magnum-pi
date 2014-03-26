@@ -7,13 +7,23 @@ module Unit
       extend MagnumPI::API
     end
 
+    module SomeOtherAPI
+      extend MagnumPI::API
+    end
+
     describe MagnumPI::API do
-      describe "when extended" do
-        it "also extends base with MagnumPI::API::Instance" do
+      describe "when extending a class" do
+        it "also includes MagnumPI::API::Instance within the class" do
           assert_equal true, SomeAPI.included_modules.include?(MagnumPI::API::Instance)
         end
-        it "also extends base with MagnumPI::API::Consumer" do
+        it "also includes MagnumPI::API::Consumer within the class" do
           assert_equal true, SomeAPI.included_modules.include?(MagnumPI::API::Consumer)
+        end
+      end
+
+      describe "when extending a module" do
+        it "also extends the module with MagnumPI::API::Consumer" do
+          assert_equal true, (class << SomeOtherAPI; self end).included_modules.include?(MagnumPI::API::Consumer)
         end
       end
 
