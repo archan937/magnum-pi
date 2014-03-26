@@ -1,5 +1,9 @@
 = MagnumPI CHANGELOG
 
+== Version 0.1.1 (March 26, 2014)
+
+* Made #api and #resources public for API instances
+
 == Version 0.1.0 (March 26, 2014)
 
 * Initial release

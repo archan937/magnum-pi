@@ -9,10 +9,9 @@ module Unit
 
     describe MagnumPI do
       it "has the current version" do
-        version = "0.1.0"
+        version = File.read path("VERSION")
         assert_equal version, MagnumPI::VERSION
         assert File.read(path "CHANGELOG.rdoc").include?("Version #{version}")
-        assert File.read(path "VERSION").include?(version)
       end
 
       describe "when extended" do
