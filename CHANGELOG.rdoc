@@ -1,5 +1,5 @@
 = MagnumPI CHANGELOG
 
-== Version 0.1.0 (March xx, 2014)
+== Version 0.1.0 (March 26, 2014)
 
 * Initial release

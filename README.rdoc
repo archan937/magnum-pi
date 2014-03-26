@@ -14,6 +14,10 @@ Run the following in your console to install with Bundler:
 
   $ bundle install
 
+=== TODO
+
+* Support OAuth using APIs
+
 === License
 
 Copyright (c) 2014 Paul Engel, released under the MIT license
