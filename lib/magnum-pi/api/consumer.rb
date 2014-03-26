@@ -28,6 +28,10 @@ module MagnumPI
 
     private
 
+      def method_missing(name, *args)
+        resources[name.to_sym] ? resource(name, *args) : super
+      end
+
       def request(method, url, params)
         agent.send method, url, params
       rescue Mechanize::ResponseCodeError => e

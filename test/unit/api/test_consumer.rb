@@ -60,6 +60,21 @@ module Unit
             @consumer.resource :statistics, {:date => "2014-03-20"}, "path/to/target"
           end
         end
+        describe "#method_missing" do
+          describe "corresponding resource" do
+            it "delegates to #resource" do
+              @consumer.expects(:resource).with(:statistics, :foo, :bar)
+              @consumer.statistics :foo, :bar
+            end
+          end
+          describe "no corresponding resource" do
+            it "raises a NoMethodError" do
+              assert_raises NoMethodError do
+                @consumer.foo
+              end
+            end
+          end
+        end
         describe "#request" do
           it "is delegated to the Mechanize agent" do
             @consumer.send(:agent).expects(:send).with(:get, :foo, :bar)
