@@ -1,6 +1,7 @@
 require "mechanize"
 require "oj"
 require "xmlsimple"
+require "active_support/core_ext/object/to_query"
 
 require "magnum-pi/gem_ext"
 require "magnum-pi/dsl"
