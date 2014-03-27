@@ -1,5 +1,10 @@
 = MagnumPI CHANGELOG
 
+== Version 0.1.2 (March 27, 2014)
+
+* Corrected Mechanize::Util.build_query_string (using ActiveSupport's #to_query)
+* Printing request debug data when MagnumPI.debug_output?
+
 == Version 0.1.1 (March 26, 2014)
 
 * Made #api and #resources public for API instances
