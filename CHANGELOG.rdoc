@@ -1,5 +1,9 @@
 = MagnumPI CHANGELOG
 
+== Version 0.1.3 (March 27, 2014)
+
+* Tackling arrays within Mechanize::Util.build_query_string
+
 == Version 0.1.2 (March 27, 2014)
 
 * Corrected Mechanize::Util.build_query_string (using ActiveSupport's #to_query)
