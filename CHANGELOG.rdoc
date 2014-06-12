@@ -1,5 +1,11 @@
 = MagnumPI CHANGELOG
 
+== Version 0.1.4 (June 12, 2014)
+
+* Extended Kernel, Class, Array and Hash with #deep_clone
+* Corrected inheritance behavior when inheriting from an API interface by deep cloning
+* Corrected finalizing API schemes by deep cloning
+
 == Version 0.1.3 (March 27, 2014)
 
 * Tackling arrays within Mechanize::Util.build_query_string
