@@ -3,6 +3,7 @@ require "oj"
 require "xmlsimple"
 require "active_support/core_ext/object/to_query"
 
+require "magnum-pi/core_ext"
 require "magnum-pi/gem_ext"
 require "magnum-pi/dsl"
 require "magnum-pi/api"

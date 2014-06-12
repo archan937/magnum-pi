@@ -24,13 +24,19 @@ module Unit
         describe "#finalize" do
           it "foo" do
             @scheme.foo String
-            @scheme.bar "bar"
+            @scheme.bar :baz => "qux"
             object_id = @scheme.instance_eval("_values").object_id
 
-            assert_equal({:bar => "bar"}, @scheme.finalize)
-            assert_equal({:foo => "foo", :bar => "bar"}, @scheme.finalize(:foo => "foo"))
+            assert_equal({:bar => {:baz => "qux"}}, @scheme.finalize)
+            assert_equal({:foo => "foo", :bar => {:baz => "qux"}}, @scheme.finalize(:foo => "foo"))
             assert_equal object_id, @scheme.instance_eval("_values").object_id
-            assert_equal({:foo => "FOO", :bar => "bar"}, @scheme.finalize(:foo => "FOO"))
+            assert_equal({:foo => "FOO", :bar => {:baz => "qux"}}, @scheme.finalize(:foo => "FOO"))
+
+            finalized = @scheme.finalize :foo => "foo"
+            assert_equal({:bar => {:baz => "qux"}}, @scheme.instance_eval("_values"))
+
+            finalized[:bar][:baz] = "QUX"
+            assert_equal({:bar => {:baz => "qux"}}, @scheme.instance_eval("_values"))
 
             assert_raises ArgumentError do
               @scheme.finalize :foo => :foo

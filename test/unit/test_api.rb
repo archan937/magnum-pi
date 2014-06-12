@@ -88,5 +88,53 @@ module Unit
       end
     end
 
+    class FooAPI
+      extend MagnumPI::API
+      api do
+        uri String
+        format :xml
+        api_key String
+        resources({
+          "foo/Bars" => {
+            :params => {
+              :start_date => Date,
+              :end_date => Date
+            }
+          }
+        })
+      end
+      resources do
+        bars :get, "foo/Bars", {:start_date => Date.today}
+      end
+    end
+
+    class BarAPI < FooAPI
+      api do
+        resources({
+          "baz/Quxs" => {}
+        })
+      end
+      resources do
+        quxs :get, "baz/Quxs"
+      end
+    end
+
+    describe "inheritance" do
+      describe ".api" do
+        it "inherits the API definition of its parent" do
+          assert BarAPI.api != nil
+          assert BarAPI.api.__id__ != FooAPI.api.__id__
+          assert_equal FooAPI.api.to_hash.tap{|h| h[:resources].merge!("baz/Quxs" => {})}, BarAPI.api.to_hash
+        end
+      end
+      describe ".resources" do
+        it "inherits the resources definition of its parent" do
+          assert BarAPI.resources != nil
+          assert BarAPI.resources.__id__ != FooAPI.resources.__id__
+          assert_equal FooAPI.resources.to_hash.merge(:quxs => [:get, "baz/Quxs"]), BarAPI.resources.to_hash
+        end
+      end
+    end
+
   end
 end

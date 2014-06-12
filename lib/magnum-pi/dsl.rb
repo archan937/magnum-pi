@@ -30,6 +30,20 @@ module MagnumPI
       _values.to_s
     end
 
+    def deep_clone
+      clone = self.class.new
+
+      valid_keys = @valid_keys.deep_clone if @valid_keys
+      values = @values.deep_clone if @values
+
+      clone.instance_eval do
+        @valid_keys = valid_keys
+        @values = values
+      end
+
+      clone
+    end
+
   private
 
     def _values

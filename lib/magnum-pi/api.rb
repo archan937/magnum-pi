@@ -1,3 +1,4 @@
+require "magnum-pi/api/inheritance"
 require "magnum-pi/api/scheme"
 require "magnum-pi/api/resources"
 require "magnum-pi/api/instance"
@@ -8,6 +9,7 @@ module MagnumPI
 
     def self.extended(base)
       if base.is_a? Class
+        base.extend Inheritance
         base.send :include, Instance
         base.send :include, Consumer
       else
