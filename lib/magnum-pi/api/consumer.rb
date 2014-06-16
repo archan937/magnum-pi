@@ -82,7 +82,7 @@ module MagnumPI
         when "json"
           Oj.load response
         when "xml"
-          XmlSimple.xml_in response
+          Ax.new response
         else
           response
         end

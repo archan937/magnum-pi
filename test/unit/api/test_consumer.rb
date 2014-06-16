@@ -154,16 +154,61 @@ module Unit
             @consumer.expects(:api).returns :format => "xml"
             assert_equal(
               {
+                "foo" => [{}],
                 "bar" => ["BAR"],
                 "baz" => [{"hello" => "world", "content" => "Baz!"}]
               }, @consumer.send(:parse_content,
                 <<-XML
                   <xml>
+                    <foo></foo>
                     <bar>BAR</bar>
                     <baz hello="world">Baz!</baz>
                   </xml>
                 XML
-              )
+              ).to_hash
+            )
+            @consumer.expects(:api).returns :format => "xml"
+            assert_equal(
+              {
+                "bar" => ["BAR"],
+                "baz" => [
+                  {
+                    "hello" => "world",
+                    "content" => ["foo", "Baz!"]
+                  }, {
+                    "hello" => "goodbye",
+                    "content" => "Bye!"
+                  }
+                ],
+                "foos" => [
+                  {
+                    "foo" => ["Hello!", "You!", {"bar" => ["Bar!"]}]
+                  },
+                  "Baz!!!",
+                  {
+                    "foo" => ["Qux!"]
+                  }
+                ]
+              }, @consumer.send(:parse_content,
+                <<-XML
+                  <xml>
+                    <bar>BAR</bar>
+                    <baz hello="world" content="foo">Baz!</baz>
+                    <baz hello="goodbye">Bye!</baz>
+                    <foos>
+                      <foo>Hello!</foo>
+                      <foo>You!</foo>
+                      <foo>
+                        <bar>Bar!</bar>
+                      </foo>
+                    </foos>
+                    <foos>Baz!!!</foos>
+                    <foos>
+                      <foo>Qux!</foo>
+                    </foos>
+                  </xml>
+                XML
+              ).to_hash
             )
             @consumer.expects(:api).returns :format => "unknown"
             assert_equal("foobar", @consumer.send(:parse_content, "foobar"))

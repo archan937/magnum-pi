@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
 
   gem.add_dependency "mechanize"
   gem.add_dependency "oj"
-  gem.add_dependency "xml-simple"
+  gem.add_dependency "ox"
   gem.add_dependency "activesupport"
 
   gem.add_development_dependency "rake"

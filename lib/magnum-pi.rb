@@ -1,6 +1,6 @@
 require "mechanize"
 require "oj"
-require "xmlsimple"
+require "ox"
 require "active_support/core_ext/object/to_query"
 
 require "magnum-pi/core_ext"
