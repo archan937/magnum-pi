@@ -10,13 +10,13 @@ class Ax < Ox::Sax
     @pattern = pattern.split("/").collect{|x| x == "" ? "*" : x}
     @block = block
 
+    @stringio.rewind
     Ox.sax_parse self, @stringio
 
   ensure
     @current_path = nil
     @elements = nil
-    @entry_regexp = nil
-    @last_call = nil
+    @regexp = nil
   end
 
   def start_element(name)
@@ -28,7 +28,6 @@ class Ax < Ox::Sax
     else
       return
     end
-    @last_call = :start_element
   end
 
   def attr(name, str)
@@ -47,8 +46,6 @@ class Ax < Ox::Sax
     element = finalize_element
     if entry?
       @block.call element, current_path[-1]
-    elsif element
-      @last_call = :end_element
     end
     current_path.pop
   end
@@ -61,6 +58,8 @@ class Ax < Ox::Sax
     hash
   end
 
+  alias :to_enum :to_hash
+
 private
 
   def current_path
@@ -72,11 +71,11 @@ private
   end
 
   def entry?
-    @entry_regexp ||= begin
+    @regexp ||= begin
       pattern = @pattern.join(%q{\/}).gsub("*", %q{[^\/]+})
       Regexp.new "^#{pattern}$"
     end
-    !!current_path.join("/").match(@entry_regexp)
+    !!current_path.join("/").match(@regexp)
   end
 
   def current_element

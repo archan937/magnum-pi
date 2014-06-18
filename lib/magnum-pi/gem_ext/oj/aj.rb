@@ -10,126 +10,126 @@ class Aj < Oj::Saj
     @pattern = pattern.split("/").collect{|x| x == "" ? "*" : x}
     @block = block
 
+    @stringio.rewind
     Oj.saj_parse self, @stringio
 
   ensure
+    @types = nil
     @current_path = nil
-    @elements = nil
-    @entry_regexp = nil
-    @last_call = nil
+    @entries = nil
+    @regexp = nil
   end
 
   def hash_start(key)
-    puts key ? "\"#{key}\": {" : "{"
-  end
-
-  def hash_end(key)
-    puts "}"
+    start_enum key, {}, :hash
   end
 
   def array_start(key)
-    puts "\"#{key}\": ["
+    start_enum key, [], :array
+  end
+
+  def hash_end(key)
+    end_enum
   end
 
   def array_end(key)
-    puts "]"
+    end_enum
   end
 
   def add_value(value, key)
-    puts "\"#{key}\": #{value.inspect}"
-  end
-
-#   def start_element(name)
-#     current_path << name
-#     if current_element
-#       add_element name
-#     elsif entry?
-#       add_element
-#     else
-#       return
-#     end
-#     @last_call = :start_element
-#   end
-#
-#   def attr(name, str)
-#     if element = current_element
-#       element[name.to_s] = str
-#     end
-#   end
-#
-#   def text(str)
-#     if element = current_element
-#       element[:text] = str
-#     end
-#   end
-#
-#   def end_element(name)
-#     element = finalize_element
-#     if entry?
-#       @block.call element, current_path[-1]
-#     elsif element
-#       @last_call = :end_element
-#     end
-#     current_path.pop
-#   end
-
-  def to_hash
-    hash = {}
-    each "*" do |entry|
-      hash.merge! entry
+    if (entry = current_entry).nil?
+      current_path << :nokey
+      entries << {key => value}
+      end_enum
+    else
+      entry[key] = value
     end
-    hash
   end
 
-# private
-#
-#   def current_path
-#     @current_path ||= []
-#   end
-#
-#   def elements
-#     @elements ||= []
-#   end
-#
-#   def entry?
-#     @entry_regexp ||= begin
-#       pattern = @pattern.join(%q{\/}).gsub("*", %q{[^\/]+})
-#       Regexp.new "^#{pattern}$"
-#     end
-#     !!current_path.join("/").match(@entry_regexp)
-#   end
-#
-#   def current_element
-#     elements[-1]
-#   end
-#
-#   def add_element(name = nil)
-#     element = {}
-#     if parent = current_element
-#       values = parent[name.to_s] ||= []
-#       element[:values] = values
-#       element[:index] = values.size
-#     end
-#     elements << element
-#   end
-#
-#   def finalize_element
-#     if element = elements.pop
-#       values = element.delete :values
-#       index = element.delete :index
-#       if text = element.delete(:text)
-#         if element.empty?
-#           element = text
-#         elsif element["content"]
-#           element["content"] = [element["content"]] unless element["content"].is_a?(Array)
-#           element["content"] << text
-#         else
-#           element["content"] = text
-#         end
-#       end
-#       values[index] = element if values
-#     end
-#     element
-#   end
+  def to_enum
+    enum = nil
+    each "*" do |entry, key|
+      enum ||= begin
+        if key == :nokey
+          entry
+        elsif key.is_a?(String)
+          {}
+        else
+          []
+        end
+      end
+      enum[key] = entry if key != :nokey
+    end
+    enum
+  end
+
+private
+
+  def types
+    @types ||= []
+  end
+
+  def current_path
+    @current_path ||= []
+  end
+
+  def entries
+    @entries ||= []
+  end
+
+  def current_entry
+    entries[-1]
+  end
+
+  def current_key
+    current_path[-1]
+  end
+
+  def current_type
+    types[-1]
+  end
+
+  def entry?
+    @regexp ||= begin
+      pattern = @pattern.join(%q{\/}).gsub("*", %q{[^\/]+})
+      Regexp.new "^#{pattern}$"
+    end
+    !!current_path.join("/").match(@regexp)
+  end
+
+  def start_enum(key, entry, type)
+    add_to_current_path key
+    if current_entry || entry?
+      add_entry entry
+    end
+    types << type
+  end
+
+  def end_enum
+    entry = entries.pop
+    if entry?
+      @block.call entry, current_key
+    end
+    finalize_entry
+  end
+
+  def add_to_current_path(key)
+    key ||= (current_entry || []).size if current_type == :array
+    current_path << key if key
+  end
+
+  def add_entry(entry)
+    if (parent = current_entry).nil?
+      parent = (current_type == :hash ? {} : [])
+      entries << parent
+    end
+    parent[current_key] = entry
+    entries << entry
+  end
+
+  def finalize_entry
+    current_path.pop
+    types.pop
+  end
 
 end

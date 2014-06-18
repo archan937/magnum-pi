@@ -10,5 +10,6 @@ end
 
 require "bundler"
 Bundler.require :default, :development, :test
+require "xmlsimple"
 
 require_relative "test_helper/minitest"

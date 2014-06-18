@@ -31,7 +31,7 @@ module Unit
             response = mock
             response.expects(:content).returns('{"name": "Paul Engel"}')
             @consumer.expects(:request).with(:get, "http://foo.bar", {:foo => "bar"}).returns(response)
-            assert_equal({"name" => "Paul Engel"}, @consumer.get(:foo => "bar"))
+            assert_equal({"name" => "Paul Engel"}, @consumer.get(:foo => "bar").to_enum)
           end
         end
         describe "#post" do
@@ -39,7 +39,7 @@ module Unit
             response = mock
             response.expects(:content).returns('{"name": "Paul Engel"}')
             @consumer.expects(:request).with(:post, "http://foo.bar", {:foo => "bar"}).returns(response)
-            assert_equal({"name" => "Paul Engel"}, @consumer.post(:foo => "bar"))
+            assert_equal({"name" => "Paul Engel"}, @consumer.post(:foo => "bar").to_enum)
           end
         end
         describe "#download" do
@@ -149,7 +149,7 @@ module Unit
                 <<-JSON
                   {"foo": "bar"}
                 JSON
-              )
+              ).to_enum
             )
             @consumer.expects(:api).returns :format => "xml"
             assert_equal(

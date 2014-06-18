@@ -22,6 +22,8 @@ module Unit
         XML
       end
       it "parses XML like XmlSimple" do
+        assert_equal XmlSimple.xml_in(@xml), Ax.new(@xml).to_enum
+        assert_equal XmlSimple.xml_in(@xml), Ax.new(@xml).to_hash
         assert_equal({
           "data" => [{
             "article" => [

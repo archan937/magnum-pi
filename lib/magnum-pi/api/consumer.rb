@@ -80,7 +80,7 @@ module MagnumPI
       def parse_content(response)
         case api[:format].to_s
         when "json"
-          Oj.load response
+          Aj.new response
         when "xml"
           Ax.new response
         else
