@@ -44,6 +44,7 @@ module MagnumPI
           Mechanize.new.tap do |agent|
             agent.verify_mode = OpenSSL::SSL::VERIFY_NONE
             agent.pluggable_parser.default = Mechanize::Download
+            agent.user_agent_alias = defined?(USER_AGENT_ALIAS) ? USER_AGENT_ALIAS : "Windows Chrome"
           end
         end
       end
