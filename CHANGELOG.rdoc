@@ -1,5 +1,9 @@
 = MagnumPI CHANGELOG
 
+== Version 0.2.2 (June 23, 2014)
+
+* Setting user_agent_alias of Mechanize instances (default: “Windows Chrome“, overwrite with USER_AGENT_ALIAS)
+
 == Version 0.2.1 (June 18, 2014)
 
 * Created `Aj` for iterating through large JSON files with Saj
