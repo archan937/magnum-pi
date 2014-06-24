@@ -11,7 +11,7 @@ module Unit
             <data>
               <article>
                 <title>MagnumPI is awesome!!!</title>
-                <category>ruby</category>
+                <category><![CDATA[ruby]]></category>
               </article>
               <article>
                 <title>Netherlands beats Spain with 1-5 :)</title>

@@ -42,6 +42,12 @@ class Ax < Ox::Sax
     end
   end
 
+  def cdata(str)
+    if element = current_element
+      element[:text] = str
+    end
+  end
+
   def end_element(name)
     element = finalize_element
     if entry?
