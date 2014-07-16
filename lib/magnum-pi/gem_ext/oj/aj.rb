@@ -40,7 +40,6 @@ class Aj < Oj::Saj
     if (entry = current_entry).nil?
       current_path << :nokey
       entries << {key => value}
-      end_enum
     else
       entry[key] = value
     end

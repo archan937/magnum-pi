@@ -60,6 +60,40 @@ module Unit
             }
           }
         }, Aj.new(json).to_enum)
+
+        json = <<-JSON
+          {
+            "timezone": "Europe/Amsterdam",
+            "offset": "+02:00",
+            "date": "2014-03-20",
+            "stats": {
+              "00": {
+                "foo": 1234567890,
+                "bar": 123.45,
+                "baz": 543.21
+              },
+              "01": {
+                "foo": 9876543210
+              }
+            }
+          }
+        JSON
+        assert_equal Oj.load(json), Aj.new(json).to_enum
+        assert_equal({
+          "timezone" => "Europe/Amsterdam",
+          "offset" => "+02:00",
+          "date" => "2014-03-20",
+          "stats" => {
+            "00" => {
+              "foo" => 1234567890,
+              "bar" => 123.45,
+              "baz" => 543.21
+            },
+            "01" => {
+              "foo" => 9876543210
+            }
+          }
+        }, Aj.new(json).to_enum)
       end
       it "can return an array within a JSON document" do
         result = []
