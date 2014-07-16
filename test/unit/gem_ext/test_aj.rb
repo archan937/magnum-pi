@@ -36,13 +36,30 @@ module Unit
             ]
           }
         }, Aj.new(@json).to_enum)
+
+        json = '{"name": "Paul Engel"}'
+        assert_equal Oj.load(json), Aj.new(json).to_enum
         assert_equal({
           "name" => "Paul Engel"
-        }, Aj.new('{"name": "Paul Engel"}').to_enum)
+        }, Aj.new(json).to_enum)
+
+        json = '[{"name": "Paul Engel"}, {"name": "Ken Adams"}]'
+        assert_equal Oj.load(json), Aj.new(json).to_enum
         assert_equal([
           {"name" => "Paul Engel"},
           {"name" => "Ken Adams"}
-        ], Aj.new('[{"name": "Paul Engel"}, {"name": "Ken Adams"}]').to_enum)
+        ], Aj.new(json).to_enum)
+
+        json = '{"name": "Paul Engel", "foo": {"00": {"bar": "baz"}}}'
+        assert_equal Oj.load(json), Aj.new(json).to_enum
+        assert_equal({
+          "name" => "Paul Engel",
+          "foo" => {
+            "00" => {
+              "bar" => "baz"
+            }
+          }
+        }, Aj.new(json).to_enum)
       end
       it "can return an array within a JSON document" do
         result = []

@@ -100,7 +100,7 @@ private
   def start_enum(key, entry, type)
     add_to_current_path key
     if current_entry || entry?
-      add_entry entry
+      add_entry entry, type
     end
     types << type
   end
@@ -118,9 +118,9 @@ private
     current_path << key if key
   end
 
-  def add_entry(entry)
+  def add_entry(entry, type)
     if (parent = current_entry).nil?
-      parent = (current_type == :hash ? {} : [])
+      parent = ((current_type || type) == :hash ? {} : [])
       entries << parent
     end
     parent[current_key] = entry
