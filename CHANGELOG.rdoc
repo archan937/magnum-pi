@@ -1,5 +1,9 @@
 = MagnumPI CHANGELOG
 
+== Version 0.2.4 (July 16, 2014)
+
+* Fixed Aj parsing
+
 == Version 0.2.3 (June 24, 2014)
 
 * Interpreting CDATA as text when parsing XML documents with Ax
