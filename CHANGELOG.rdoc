@@ -1,5 +1,9 @@
 = MagnumPI CHANGELOG
 
+== Version 0.2.5 (July 16, 2014)
+
+* Added Aj parsing fix
+
 == Version 0.2.4 (July 16, 2014)
 
 * Fixed Aj parsing
