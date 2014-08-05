@@ -16,7 +16,16 @@ module MagnumPI
       def download(target, method, *args)
         url, params = parse_args *args
         File.delete target if File.exists? target
-        request(method, url, params).save_as target
+        FileUtils.mkdir_p File.dirname(target)
+        file = File.open target, "w"
+        begin
+          request = Typhoeus::Request.new url, :method => method, :params => params
+          request.on_headers {|response| raise "Failed to download #{target}" unless (response.response_code / 200) == 1}
+          request.on_body    {|chunk| file.write chunk.force_encoding("UTF-8")}
+          request.run
+        ensure
+          file.close
+        end
         true
       end
 

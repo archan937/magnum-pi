@@ -16,6 +16,7 @@ Gem::Specification.new do |gem|
   gem.version       = MagnumPI::VERSION
 
   gem.add_dependency "mechanize"
+  gem.add_dependency "typhoeus"
   gem.add_dependency "oj"
   gem.add_dependency "ox"
   gem.add_dependency "activesupport"

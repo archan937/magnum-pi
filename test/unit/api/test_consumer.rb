@@ -44,9 +44,14 @@ module Unit
         end
         describe "#download" do
           it "downloads using the Mechanize agent" do
-            response = mock
-            response.expects(:save_as).with("path/to/target")
-            @consumer.expects(:request).with(:get, "http://foo.bar", :foo => "bar").returns(response)
+            file, request = mock, mock
+            FileUtils.expects(:mkdir_p).with("path/to")
+            File.expects(:open).with("path/to/target", "w").returns(file)
+            Typhoeus::Request.expects(:new).with("http://foo.bar", :method => :get, :params => {:foo => "bar"}).returns(request)
+            file.expects(:close)
+            request.expects(:on_headers)
+            request.expects(:on_body)
+            request.expects(:run)
             @consumer.download "path/to/target", :get, :foo => "bar"
           end
         end

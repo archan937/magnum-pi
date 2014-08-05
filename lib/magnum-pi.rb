@@ -1,4 +1,5 @@
 require "mechanize"
+require "typhoeus"
 require "oj"
 require "ox"
 require "active_support/core_ext/object/to_query"
