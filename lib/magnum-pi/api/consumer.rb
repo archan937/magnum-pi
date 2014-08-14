@@ -19,7 +19,13 @@ module MagnumPI
         FileUtils.mkdir_p File.dirname(target)
         file = File.open target, "w"
         begin
-          request = Typhoeus::Request.new url, :method => method, :params => params, :headers => {"User-Agent" => agent.user_agent}
+          options = {:method => method, :headers => {"User-Agent" => agent.user_agent}}
+          if method.to_s.downcase == "get"
+            options[:params] = params
+          else
+            options[:body] = params
+          end
+          request = Typhoeus::Request.new url, options
           request.on_headers {|response| raise "Failed to download #{target}" unless (response.response_code / 200) == 1}
           request.on_body    {|chunk| file.write chunk.force_encoding("UTF-8")}
           request.run
