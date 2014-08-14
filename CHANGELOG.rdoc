@@ -1,5 +1,9 @@
 = MagnumPI CHANGELOG
 
+== Version 0.2.8 (August 14, 2014)
+
+* Corrected parameters when downloading with POST requests
+
 == Version 0.2.7 (August 14, 2014)
 
 * Using one user-agent only
