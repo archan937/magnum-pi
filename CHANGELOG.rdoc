@@ -1,5 +1,9 @@
 = MagnumPI CHANGELOG
 
+== Version 0.2.7 (August 14, 2014)
+
+* Using one user-agent only
+
 == Version 0.2.6 (August 5, 2014)
 
 * Using Typhoeus for downloading files
