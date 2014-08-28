@@ -43,16 +43,43 @@ module Unit
           end
         end
         describe "#download" do
-          it "downloads using the Mechanize agent" do
-            file, request = mock, mock
-            FileUtils.expects(:mkdir_p).with("path/to")
-            File.expects(:open).with("path/to/target", "w").returns(file)
-            Typhoeus::Request.expects(:new).with("http://foo.bar", :method => :get, :params => {:foo => "bar"}).returns(request)
-            file.expects(:close)
-            request.expects(:on_headers)
-            request.expects(:on_body)
-            request.expects(:run)
-            @consumer.download "path/to/target", :get, :foo => "bar"
+          describe "using GET method" do
+            it "downloads using Typhoeus" do
+              file, request = mock, mock
+              FileUtils.expects(:mkdir_p).with("path/to")
+              File.expects(:open).with("path/to/target", "w").returns(file)
+              Mechanize::HTTP::Agent.any_instance.expects(:user_agent).returns("FooBar v.1.2.3")
+              Typhoeus::Request.expects(:new).with(
+                "http://foo.bar",
+                :method => :get,
+                :headers => {"User-Agent" => "FooBar v.1.2.3"},
+                :params => {:foo => "bar"}
+              ).returns(request)
+              file.expects(:close)
+              request.expects(:on_headers)
+              request.expects(:on_body)
+              request.expects(:run)
+              @consumer.download "path/to/target", :get, :foo => "bar"
+            end
+          end
+          describe "using POST method" do
+            it "downloads using Typhoeus" do
+              file, request = mock, mock
+              FileUtils.expects(:mkdir_p).with("path/to")
+              File.expects(:open).with("path/to/target", "w").returns(file)
+              Mechanize::HTTP::Agent.any_instance.expects(:user_agent).returns("FooBar v.1.2.3")
+              Typhoeus::Request.expects(:new).with(
+                "http://foo.bar",
+                :method => :post,
+                :headers => {"User-Agent" => "FooBar v.1.2.3"},
+                :body => {:foo => "bar"}
+              ).returns(request)
+              file.expects(:close)
+              request.expects(:on_headers)
+              request.expects(:on_body)
+              request.expects(:run)
+              @consumer.download "path/to/target", :post, :foo => "bar"
+            end
           end
         end
         describe "#resource" do
