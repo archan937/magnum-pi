@@ -19,7 +19,7 @@ module MagnumPI
         FileUtils.mkdir_p File.dirname(target)
         file = File.open target, "w"
         begin
-          options = {:method => method, :headers => {"User-Agent" => agent.user_agent}}
+          options = {:method => method, :headers => {"User-Agent" => agent.user_agent}.merge(request_headers(method, url, params))}
           if method.to_s.downcase == "get"
             options[:params] = params
           else
@@ -49,9 +49,13 @@ module MagnumPI
 
       def request(method, url, params)
         puts "#{method.upcase} #{url} #{"(#{params.inspect[1..-2]})" if params && params.size > 0}" if MagnumPI.debug_output?
-        agent.send method, url, params
+        agent.send method, url, params, nil, request_headers(method, url, params)
       rescue Mechanize::ResponseCodeError => e
         raise Error, e.message, e.backtrace
+      end
+
+      def request_headers(method, url, params)
+        {}
       end
 
       def agent
