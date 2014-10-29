@@ -109,7 +109,7 @@ module Unit
         end
         describe "#request" do
           it "is delegated to the Mechanize agent" do
-            @consumer.send(:agent).expects(:send).with(:get, :foo, :bar)
+            @consumer.send(:agent).expects(:send).with(:get, :foo, :bar, nil, {})
             @consumer.send(:request, :get, :foo, :bar)
           end
           it "raises an error when a Mechanize::ResponseCodeError occurs" do
