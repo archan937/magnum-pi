@@ -1,5 +1,10 @@
 = MagnumPI CHANGELOG
 
+== Version 0.2.9 (October 29, 2014)
+
+* Being able to add request headers
+* Being able to pass StringIO’s directly to Aj and Ax
+
 == Version 0.2.8 (August 14, 2014)
 
 * Corrected parameters when downloading with POST requests
