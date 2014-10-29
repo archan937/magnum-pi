@@ -3,7 +3,7 @@ require "stringio"
 class Ax < Ox::Sax
 
   def initialize(xml)
-    @stringio = StringIO.new xml
+    @stringio = xml.is_a?(StringIO) ? xml : StringIO.new(xml)
   end
 
   def each(pattern, &block)

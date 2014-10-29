@@ -3,7 +3,7 @@ require "stringio"
 class Aj < Oj::Saj
 
   def initialize(json)
-    @stringio = StringIO.new json
+    @stringio = json.is_a?(StringIO) ? json : StringIO.new(json)
   end
 
   def each(pattern, &block)
