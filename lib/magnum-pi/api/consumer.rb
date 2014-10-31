@@ -49,7 +49,10 @@ module MagnumPI
 
       def request(method, url, params)
         puts "#{method.upcase} #{url} #{"(#{params.inspect[1..-2]})" if params && params.size > 0}" if MagnumPI.debug_output?
-        agent.send method, url, params, nil, request_headers(method, url, params)
+        args = [method, url, params]
+        args << nil if method.to_s.upcase == "GET"
+        args << request_headers(method, url, params)
+        agent.send *args
       rescue Mechanize::ResponseCodeError => e
         raise Error, e.message, e.backtrace
       end
