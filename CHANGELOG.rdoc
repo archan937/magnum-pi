@@ -1,5 +1,9 @@
 = MagnumPI CHANGELOG
 
+== Version 0.2.10 (October 31, 2014)
+
+* Fixed sending request headers for non-GET requests
+
 == Version 0.2.9 (October 29, 2014)
 
 * Being able to add request headers

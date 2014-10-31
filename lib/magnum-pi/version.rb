@@ -1,7 +1,7 @@
 module MagnumPI
   MAJOR = 0
   MINOR = 2
-  TINY  = 9
+  TINY  = 10
 
   VERSION = [MAJOR, MINOR, TINY].join(".")
 end
