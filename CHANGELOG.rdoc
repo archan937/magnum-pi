@@ -1,5 +1,9 @@
 = MagnumPI CHANGELOG
 
+== Version 0.2.11 (February 23, 2015)
+
+* Passing request method and arguments to MagnumPI::API::Consumer#parse_content
+
 == Version 0.2.10 (October 31, 2014)
 
 * Fixed sending request headers for non-GET requests
