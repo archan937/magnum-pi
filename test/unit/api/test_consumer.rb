@@ -29,16 +29,18 @@ module Unit
         describe "#get" do
           it "makes a GET request" do
             response = mock
-            response.expects(:content).returns('{"name": "Paul Engel"}')
+            response.expects(:content).returns(content = '{"name": "Paul Engel"}')
             @consumer.expects(:request).with(:get, "http://foo.bar", {:foo => "bar"}).returns(response)
+            @consumer.expects(:parse_content).with(content, :get, {:foo => "bar"}).returns(Aj.new(content))
             assert_equal({"name" => "Paul Engel"}, @consumer.get(:foo => "bar").to_enum)
           end
         end
         describe "#post" do
           it "makes a POST request" do
             response = mock
-            response.expects(:content).returns('{"name": "Paul Engel"}')
+            response.expects(:content).returns(content = '{"name": "Paul Engel"}')
             @consumer.expects(:request).with(:post, "http://foo.bar", {:foo => "bar"}).returns(response)
+            @consumer.expects(:parse_content).with(content, :post, {:foo => "bar"}).returns(Aj.new(content))
             assert_equal({"name" => "Paul Engel"}, @consumer.post(:foo => "bar").to_enum)
           end
         end
@@ -186,7 +188,7 @@ module Unit
             @consumer.expects(:api).returns :format => "xml"
             assert_equal(
               {
-                "foo" => [{}],
+                "foo" => [""],
                 "bar" => ["BAR"],
                 "baz" => [{"hello" => "world", "content" => "Baz!"}]
               }, @consumer.send(:parse_content,

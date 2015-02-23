@@ -5,12 +5,12 @@ module MagnumPI
 
       def get(*args)
         url, params = parse_args *args
-        parse_content request(:get, url, params).content
+        parse_content request(:get, url, params).content, :get, *args
       end
 
       def post(*args)
         url, params = parse_args *args
-        parse_content request(:post, url, params).content
+        parse_content request(:post, url, params).content, :post, *args
       end
 
       def download(target, method, *args)
@@ -100,7 +100,7 @@ module MagnumPI
         raise NotImplementedError
       end
 
-      def parse_content(response)
+      def parse_content(response, method = nil, *args)
         case api[:format].to_s
         when "json"
           Aj.new response
